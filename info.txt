@@ -1,0 +1,1 @@
+Zapomniałem dodać AUTO_INCREMENT do kluczów podstawowych więc manualnie dodałem je w interfejsie (nie będzie na zdjęciu konsoli).
