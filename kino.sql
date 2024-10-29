@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 29, 2024 at 01:25 PM
+-- Generation Time: Oct 29, 2024 at 01:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54,6 +54,19 @@ CREATE TABLE `Bilety` (
   `CENA` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `Bilety`
+--
+
+INSERT INTO `Bilety` (`ID`, `SEANS_ID`, `SPRZEDAWCA_ID`, `KLIENT_ID`, `CENA`) VALUES
+(1, 1, 1, 1, 25),
+(2, 2, 2, 2, 30.5),
+(3, 1, 1, 3, 20),
+(4, 3, 3, 1, 15),
+(5, 4, 2, 2, 22.5),
+(6, 5, 1, 3, 28),
+(7, 6, 3, 1, 18);
+
 -- --------------------------------------------------------
 
 --
@@ -67,6 +80,22 @@ CREATE TABLE `Filmy` (
   `CZAS_TRWANIA` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `Filmy`
+--
+
+INSERT INTO `Filmy` (`ID`, `TYTUŁ`, `REŻYSER`, `CZAS_TRWANIA`) VALUES
+(1, 'Pulp Fiction', 'Quentin Tarantino', 120),
+(2, 'Inception', 'Christopher Nolan', 142),
+(3, 'Lady Bird', 'Greta Gerwig', 95),
+(4, 'The Irishman', 'Martin Scorsese', 158),
+(5, 'Avatar', 'James Cameron', 104),
+(6, 'Fight Club', 'David Fincher', 135),
+(7, 'Dune', 'Denis Villeneuve', 126),
+(8, 'Toy Story', 'Pixar Animation Studios', 87),
+(9, 'The Lord of the Rings: The Fellowship of the Ring', 'Peter Jackson', 112),
+(10, 'Jurassic Park', 'Steven Spielberg', 130);
+
 -- --------------------------------------------------------
 
 --
@@ -78,6 +107,19 @@ CREATE TABLE `Filmy_Rodzaj` (
   `FILMY_ID` int(11) NOT NULL,
   `RODZAJ_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Filmy_Rodzaj`
+--
+
+INSERT INTO `Filmy_Rodzaj` (`ID`, `FILMY_ID`, `RODZAJ_ID`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 2, 1),
+(4, 3, 3),
+(5, 4, 2),
+(6, 5, 1),
+(7, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -91,6 +133,22 @@ CREATE TABLE `Klienci` (
   `NAZWISKO` varchar(50) NOT NULL,
   `MAIL` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Klienci`
+--
+
+INSERT INTO `Klienci` (`ID`, `IMIĘ`, `NAZWISKO`, `MAIL`) VALUES
+(1, 'Jan', 'Kowalski', 'jan.kowalski@example.com'),
+(2, 'Anna', 'Nowak', 'anna.nowak@example.com'),
+(3, 'Piotr', 'Kaczmarek', 'piotr.kaczmarek@example.com'),
+(4, 'Katarzyna', 'Wiśniewska', 'katarzyna.wisniewska@example.com'),
+(5, 'Michał', 'Wójcik', 'michal.wojcik@example.com'),
+(6, 'Ewa', 'Kowalczyk', 'ewa.kowalczyk@example.com'),
+(7, 'Tomasz', 'Ziemek', 'tomasz.ziemek@example.com'),
+(8, 'Zofia', 'Kryszak', 'zofia.kryszak@example.com'),
+(9, 'Jakub', 'Borowski', 'jakub.borowski@example.com'),
+(10, 'Julia', 'Majewska', 'julia.majewska@example.com');
 
 -- --------------------------------------------------------
 
@@ -110,7 +168,17 @@ CREATE TABLE `Rodzaj_Filmu` (
 INSERT INTO `Rodzaj_Filmu` (`ID`, `NAZWA`) VALUES
 (1, 'Shrek'),
 (2, 'Shrek 2'),
-(3, 'Shrek 3');
+(3, 'Shrek 3'),
+(4, 'Action'),
+(5, 'Comedy'),
+(6, 'Drama'),
+(7, 'Horror'),
+(8, 'Thriller'),
+(9, 'Science Fiction'),
+(10, 'Fantasy'),
+(11, 'Romantic'),
+(12, 'Documentary'),
+(13, 'Animation');
 
 -- --------------------------------------------------------
 
@@ -122,6 +190,20 @@ CREATE TABLE `Sale` (
   `ID` int(11) NOT NULL,
   `ILOŚĆ_MIEJSC` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Sale`
+--
+
+INSERT INTO `Sale` (`ID`, `ILOŚĆ_MIEJSC`) VALUES
+(1, 100),
+(2, 150),
+(3, 200),
+(4, 75),
+(5, 50),
+(6, 300),
+(7, 120),
+(8, 90);
 
 -- --------------------------------------------------------
 
@@ -137,6 +219,19 @@ CREATE TABLE `Seanse` (
   `LICZBA_WOLNYCH_MIEJSC` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `Seanse`
+--
+
+INSERT INTO `Seanse` (`ID`, `TERMIN`, `SALA_ID`, `FILM_ID`, `LICZBA_WOLNYCH_MIEJSC`) VALUES
+(1, '2024-10-30 18:00:00', 1, 1, 80),
+(2, '2024-10-30 20:00:00', 2, 2, 100),
+(3, '2024-10-31 18:00:00', 1, 1, 50),
+(4, '2024-10-31 21:00:00', 3, 3, 70),
+(5, '2024-11-01 19:00:00', 2, 2, 30),
+(6, '2024-11-02 15:00:00', 4, 4, 0),
+(7, '2024-11-03 17:30:00', 5, 5, 150);
+
 -- --------------------------------------------------------
 
 --
@@ -148,6 +243,22 @@ CREATE TABLE `Sprzedawcy` (
   `IMIĘ` varchar(50) NOT NULL,
   `NAZWISKO` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Sprzedawcy`
+--
+
+INSERT INTO `Sprzedawcy` (`ID`, `IMIĘ`, `NAZWISKO`) VALUES
+(1, 'Kamil', 'Nowak'),
+(2, 'Marta', 'Kowalska'),
+(3, 'Filip', 'Zieliński'),
+(4, 'Olga', 'Wojciechowska'),
+(5, 'Jakub', 'Kamiński'),
+(6, 'Natalia', 'Jankowska'),
+(7, 'Mateusz', 'Kaczmarek'),
+(8, 'Karolina', 'Zalewska'),
+(9, 'Piotr', 'Mazur'),
+(10, 'Ewa', 'Szymańska');
 
 --
 -- Indexes for dumped tables
@@ -228,49 +339,49 @@ ALTER TABLE `Administratorzy`
 -- AUTO_INCREMENT for table `Bilety`
 --
 ALTER TABLE `Bilety`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Filmy`
 --
 ALTER TABLE `Filmy`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `Filmy_Rodzaj`
 --
 ALTER TABLE `Filmy_Rodzaj`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Klienci`
 --
 ALTER TABLE `Klienci`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `Rodzaj_Filmu`
 --
 ALTER TABLE `Rodzaj_Filmu`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `Sale`
 --
 ALTER TABLE `Sale`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `Seanse`
 --
 ALTER TABLE `Seanse`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Sprzedawcy`
 --
 ALTER TABLE `Sprzedawcy`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
