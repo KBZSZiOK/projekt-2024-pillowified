@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 22, 2024 at 09:05 AM
+-- Generation Time: Oct 29, 2024 at 01:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `kino`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Administratorzy`
+--
+
+CREATE TABLE `Administratorzy` (
+  `Nazwa` varchar(50) NOT NULL,
+  `Haslo` varchar(50) NOT NULL,
+  `ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Administratorzy`
+--
+
+INSERT INTO `Administratorzy` (`Nazwa`, `Haslo`, `ID`) VALUES
+('admin', 'hotdog32', 1);
 
 -- --------------------------------------------------------
 
@@ -84,6 +103,15 @@ CREATE TABLE `Rodzaj_Filmu` (
   `NAZWA` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `Rodzaj_Filmu`
+--
+
+INSERT INTO `Rodzaj_Filmu` (`ID`, `NAZWA`) VALUES
+(1, 'Shrek'),
+(2, 'Shrek 2'),
+(3, 'Shrek 3');
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +152,12 @@ CREATE TABLE `Sprzedawcy` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `Administratorzy`
+--
+ALTER TABLE `Administratorzy`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `Bilety`
@@ -185,6 +219,12 @@ ALTER TABLE `Sprzedawcy`
 --
 
 --
+-- AUTO_INCREMENT for table `Administratorzy`
+--
+ALTER TABLE `Administratorzy`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `Bilety`
 --
 ALTER TABLE `Bilety`
@@ -212,7 +252,7 @@ ALTER TABLE `Klienci`
 -- AUTO_INCREMENT for table `Rodzaj_Filmu`
 --
 ALTER TABLE `Rodzaj_Filmu`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Sale`
