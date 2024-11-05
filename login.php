@@ -4,16 +4,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
+        <link rel="stylesheet" href="style1.css">
     </head>
     <body>
-        <h2>Login Page</h2>
-        <form action="login.php" method="post">
-            <label for="username">Username: </label>
-            <input type="text" id="username" name="username" required><br>
-            <label for="password">Password: </label>
-            <input type="password" id="password" name="password" required><br>
-            <input type="submit" value="Login">
-        </form>
+            <form action="login.php" method="post">
+                <h2 id="login-text">Login</h2>
+                <div id="stuff">
+                    <div id="inputs">
+                        <label for="username">Username: </label>
+                        <input type="text" id="username" name="username" required><br>
+                        <label for="password">Password: </label>
+                        <input type="password" id="password" name="password" required><br>
+                    </div>
+                    <input type="submit" value="Login" id="sender">
+                </div>
+            </form>
 
         <?php
             ini_set('display_errors', 1);

@@ -7,7 +7,7 @@
     </head>
     <body>
         <form method="post">
-            <input type="submit" value="Logout">
+            <input type="submit" value="Logout" name="submit">
         </form>
         <?php
             session_start();
@@ -16,13 +16,34 @@
                 header("Location: login.php");
                 exit();
             }
-            
-            echo "Welcome, " . $_SESSION['username'] . "!";
+            if ($_SESSION['greeted'] == false) {
+                echo "Welcome, " . $_SESSION['username'] . "!";
+                $_SESSION['greeted'] = true;
+            }
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                session_destroy();
-                header("Location: login.php");
-                exit();
+                if ($_POST["submit"] == "Logout") {
+                    session_destroy();
+                    header("Location: login.php");
+                    exit();
+                }
+            }
+
+            // ------------------------------------------- //
+
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            error_reporting(E_ALL);
+
+            $host = "localhost";
+            $dbUsername = "root";
+            $dbPassword = "";
+            $dbName = "kino";
+
+            $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
+
+            if ($conn->connect_error) {
+                die("Connection failed: ".$conn->connect_error);
             }
         ?>
     </body>
