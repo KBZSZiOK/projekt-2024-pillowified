@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 29, 2024 at 01:49 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Lis 07, 2024 at 12:31 AM
+-- Wersja serwera: 10.4.32-MariaDB
+-- Wersja PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,29 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Administratorzy`
+-- Struktura tabeli dla tabeli `bilety`
 --
 
-CREATE TABLE `Administratorzy` (
-  `Nazwa` varchar(50) NOT NULL,
-  `Haslo` varchar(50) NOT NULL,
-  `ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `Administratorzy`
---
-
-INSERT INTO `Administratorzy` (`Nazwa`, `Haslo`, `ID`) VALUES
-('admin', 'hotdog32', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Bilety`
---
-
-CREATE TABLE `Bilety` (
+CREATE TABLE `bilety` (
   `ID` int(11) NOT NULL,
   `SEANS_ID` int(11) NOT NULL,
   `SPRZEDAWCA_ID` int(11) NOT NULL,
@@ -55,10 +36,10 @@ CREATE TABLE `Bilety` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Bilety`
+-- Dumping data for table `bilety`
 --
 
-INSERT INTO `Bilety` (`ID`, `SEANS_ID`, `SPRZEDAWCA_ID`, `KLIENT_ID`, `CENA`) VALUES
+INSERT INTO `bilety` (`ID`, `SEANS_ID`, `SPRZEDAWCA_ID`, `KLIENT_ID`, `CENA`) VALUES
 (1, 1, 1, 1, 25),
 (2, 2, 2, 2, 30.5),
 (3, 1, 1, 3, 20),
@@ -70,10 +51,10 @@ INSERT INTO `Bilety` (`ID`, `SEANS_ID`, `SPRZEDAWCA_ID`, `KLIENT_ID`, `CENA`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Filmy`
+-- Struktura tabeli dla tabeli `filmy`
 --
 
-CREATE TABLE `Filmy` (
+CREATE TABLE `filmy` (
   `ID` int(11) NOT NULL,
   `TYTUŁ` varchar(50) NOT NULL,
   `REŻYSER` varchar(50) NOT NULL,
@@ -81,10 +62,10 @@ CREATE TABLE `Filmy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Filmy`
+-- Dumping data for table `filmy`
 --
 
-INSERT INTO `Filmy` (`ID`, `TYTUŁ`, `REŻYSER`, `CZAS_TRWANIA`) VALUES
+INSERT INTO `filmy` (`ID`, `TYTUŁ`, `REŻYSER`, `CZAS_TRWANIA`) VALUES
 (1, 'Pulp Fiction', 'Quentin Tarantino', 120),
 (2, 'Inception', 'Christopher Nolan', 142),
 (3, 'Lady Bird', 'Greta Gerwig', 95),
@@ -99,20 +80,20 @@ INSERT INTO `Filmy` (`ID`, `TYTUŁ`, `REŻYSER`, `CZAS_TRWANIA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Filmy_Rodzaj`
+-- Struktura tabeli dla tabeli `filmy_rodzaj`
 --
 
-CREATE TABLE `Filmy_Rodzaj` (
+CREATE TABLE `filmy_rodzaj` (
   `ID` int(11) NOT NULL,
   `FILMY_ID` int(11) NOT NULL,
   `RODZAJ_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Filmy_Rodzaj`
+-- Dumping data for table `filmy_rodzaj`
 --
 
-INSERT INTO `Filmy_Rodzaj` (`ID`, `FILMY_ID`, `RODZAJ_ID`) VALUES
+INSERT INTO `filmy_rodzaj` (`ID`, `FILMY_ID`, `RODZAJ_ID`) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 2, 1),
@@ -124,10 +105,10 @@ INSERT INTO `Filmy_Rodzaj` (`ID`, `FILMY_ID`, `RODZAJ_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Klienci`
+-- Struktura tabeli dla tabeli `klienci`
 --
 
-CREATE TABLE `Klienci` (
+CREATE TABLE `klienci` (
   `ID` int(11) NOT NULL,
   `IMIĘ` varchar(50) NOT NULL,
   `NAZWISKO` varchar(50) NOT NULL,
@@ -135,10 +116,10 @@ CREATE TABLE `Klienci` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Klienci`
+-- Dumping data for table `klienci`
 --
 
-INSERT INTO `Klienci` (`ID`, `IMIĘ`, `NAZWISKO`, `MAIL`) VALUES
+INSERT INTO `klienci` (`ID`, `IMIĘ`, `NAZWISKO`, `MAIL`) VALUES
 (1, 'Jan', 'Kowalski', 'jan.kowalski@example.com'),
 (2, 'Anna', 'Nowak', 'anna.nowak@example.com'),
 (3, 'Piotr', 'Kaczmarek', 'piotr.kaczmarek@example.com'),
@@ -153,19 +134,19 @@ INSERT INTO `Klienci` (`ID`, `IMIĘ`, `NAZWISKO`, `MAIL`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Rodzaj_Filmu`
+-- Struktura tabeli dla tabeli `rodzaj_filmu`
 --
 
-CREATE TABLE `Rodzaj_Filmu` (
+CREATE TABLE `rodzaj_filmu` (
   `ID` int(11) NOT NULL,
   `NAZWA` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Rodzaj_Filmu`
+-- Dumping data for table `rodzaj_filmu`
 --
 
-INSERT INTO `Rodzaj_Filmu` (`ID`, `NAZWA`) VALUES
+INSERT INTO `rodzaj_filmu` (`ID`, `NAZWA`) VALUES
 (1, 'Shrek'),
 (2, 'Shrek 2'),
 (3, 'Shrek 3'),
@@ -183,19 +164,19 @@ INSERT INTO `Rodzaj_Filmu` (`ID`, `NAZWA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Sale`
+-- Struktura tabeli dla tabeli `sale`
 --
 
-CREATE TABLE `Sale` (
+CREATE TABLE `sale` (
   `ID` int(11) NOT NULL,
   `ILOŚĆ_MIEJSC` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Sale`
+-- Dumping data for table `sale`
 --
 
-INSERT INTO `Sale` (`ID`, `ILOŚĆ_MIEJSC`) VALUES
+INSERT INTO `sale` (`ID`, `ILOŚĆ_MIEJSC`) VALUES
 (1, 100),
 (2, 150),
 (3, 200),
@@ -208,10 +189,10 @@ INSERT INTO `Sale` (`ID`, `ILOŚĆ_MIEJSC`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Seanse`
+-- Struktura tabeli dla tabeli `seanse`
 --
 
-CREATE TABLE `Seanse` (
+CREATE TABLE `seanse` (
   `ID` int(11) NOT NULL,
   `TERMIN` datetime NOT NULL,
   `SALA_ID` int(11) NOT NULL,
@@ -220,10 +201,10 @@ CREATE TABLE `Seanse` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Seanse`
+-- Dumping data for table `seanse`
 --
 
-INSERT INTO `Seanse` (`ID`, `TERMIN`, `SALA_ID`, `FILM_ID`, `LICZBA_WOLNYCH_MIEJSC`) VALUES
+INSERT INTO `seanse` (`ID`, `TERMIN`, `SALA_ID`, `FILM_ID`, `LICZBA_WOLNYCH_MIEJSC`) VALUES
 (1, '2024-10-30 18:00:00', 1, 1, 80),
 (2, '2024-10-30 20:00:00', 2, 2, 100),
 (3, '2024-10-31 18:00:00', 1, 1, 50),
@@ -235,20 +216,20 @@ INSERT INTO `Seanse` (`ID`, `TERMIN`, `SALA_ID`, `FILM_ID`, `LICZBA_WOLNYCH_MIEJ
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Sprzedawcy`
+-- Struktura tabeli dla tabeli `sprzedawcy`
 --
 
-CREATE TABLE `Sprzedawcy` (
+CREATE TABLE `sprzedawcy` (
   `ID` int(11) NOT NULL,
   `IMIĘ` varchar(50) NOT NULL,
   `NAZWISKO` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Sprzedawcy`
+-- Dumping data for table `sprzedawcy`
 --
 
-INSERT INTO `Sprzedawcy` (`ID`, `IMIĘ`, `NAZWISKO`) VALUES
+INSERT INTO `sprzedawcy` (`ID`, `IMIĘ`, `NAZWISKO`) VALUES
 (1, 'Kamil', 'Nowak'),
 (2, 'Marta', 'Kowalska'),
 (3, 'Filip', 'Zieliński'),
@@ -260,69 +241,93 @@ INSERT INTO `Sprzedawcy` (`ID`, `IMIĘ`, `NAZWISKO`) VALUES
 (9, 'Piotr', 'Mazur'),
 (10, 'Ewa', 'Szymańska');
 
+-- --------------------------------------------------------
+
 --
--- Indexes for dumped tables
+-- Struktura tabeli dla tabeli `uzytkownicy`
+--
+
+CREATE TABLE `uzytkownicy` (
+  `Nazwa` varchar(50) NOT NULL,
+  `Haslo` varchar(50) NOT NULL,
+  `ID` int(11) NOT NULL,
+  `Access` tinyint(1) NOT NULL,
+  `Select` tinyint(1) NOT NULL,
+  `Modify` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `uzytkownicy`
+--
+
+INSERT INTO `uzytkownicy` (`Nazwa`, `Haslo`, `ID`, `Access`, `Select`, `Modify`) VALUES
+('admin', 'hotdog32', 1, 1, 1, 1),
+('moderator', 'kebab123', 2, 1, 1, 0),
+('viewer', 'password', 3, 0, 0, 0);
+
+--
+-- Indeksy dla zrzutów tabel
 --
 
 --
--- Indexes for table `Administratorzy`
+-- Indeksy dla tabeli `bilety`
 --
-ALTER TABLE `Administratorzy`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `Bilety`
---
-ALTER TABLE `Bilety`
+ALTER TABLE `bilety`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `fk_Seans` (`SEANS_ID`),
   ADD KEY `fk_Sprzedawca` (`SPRZEDAWCA_ID`),
   ADD KEY `fk_Klient` (`KLIENT_ID`);
 
 --
--- Indexes for table `Filmy`
+-- Indeksy dla tabeli `filmy`
 --
-ALTER TABLE `Filmy`
+ALTER TABLE `filmy`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `Filmy_Rodzaj`
+-- Indeksy dla tabeli `filmy_rodzaj`
 --
-ALTER TABLE `Filmy_Rodzaj`
+ALTER TABLE `filmy_rodzaj`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `fk_Rodzaj_Filmu` (`RODZAJ_ID`),
   ADD KEY `fk_Filmy` (`FILMY_ID`);
 
 --
--- Indexes for table `Klienci`
+-- Indeksy dla tabeli `klienci`
 --
-ALTER TABLE `Klienci`
+ALTER TABLE `klienci`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `Rodzaj_Filmu`
+-- Indeksy dla tabeli `rodzaj_filmu`
 --
-ALTER TABLE `Rodzaj_Filmu`
+ALTER TABLE `rodzaj_filmu`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `Sale`
+-- Indeksy dla tabeli `sale`
 --
-ALTER TABLE `Sale`
+ALTER TABLE `sale`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `Seanse`
+-- Indeksy dla tabeli `seanse`
 --
-ALTER TABLE `Seanse`
+ALTER TABLE `seanse`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `fk_Film` (`FILM_ID`),
   ADD KEY `fk_Sale` (`SALA_ID`);
 
 --
--- Indexes for table `Sprzedawcy`
+-- Indeksy dla tabeli `sprzedawcy`
 --
-ALTER TABLE `Sprzedawcy`
+ALTER TABLE `sprzedawcy`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indeksy dla tabeli `uzytkownicy`
+--
+ALTER TABLE `uzytkownicy`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -330,84 +335,84 @@ ALTER TABLE `Sprzedawcy`
 --
 
 --
--- AUTO_INCREMENT for table `Administratorzy`
+-- AUTO_INCREMENT for table `bilety`
 --
-ALTER TABLE `Administratorzy`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `Bilety`
---
-ALTER TABLE `Bilety`
+ALTER TABLE `bilety`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `Filmy`
+-- AUTO_INCREMENT for table `filmy`
 --
-ALTER TABLE `Filmy`
+ALTER TABLE `filmy`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `Filmy_Rodzaj`
+-- AUTO_INCREMENT for table `filmy_rodzaj`
 --
-ALTER TABLE `Filmy_Rodzaj`
+ALTER TABLE `filmy_rodzaj`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `Klienci`
+-- AUTO_INCREMENT for table `klienci`
 --
-ALTER TABLE `Klienci`
+ALTER TABLE `klienci`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `Rodzaj_Filmu`
+-- AUTO_INCREMENT for table `rodzaj_filmu`
 --
-ALTER TABLE `Rodzaj_Filmu`
+ALTER TABLE `rodzaj_filmu`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `Sale`
+-- AUTO_INCREMENT for table `sale`
 --
-ALTER TABLE `Sale`
+ALTER TABLE `sale`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `Seanse`
+-- AUTO_INCREMENT for table `seanse`
 --
-ALTER TABLE `Seanse`
+ALTER TABLE `seanse`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `Sprzedawcy`
+-- AUTO_INCREMENT for table `sprzedawcy`
 --
-ALTER TABLE `Sprzedawcy`
+ALTER TABLE `sprzedawcy`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `uzytkownicy`
+--
+ALTER TABLE `uzytkownicy`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `Bilety`
+-- Constraints for table `bilety`
 --
-ALTER TABLE `Bilety`
-  ADD CONSTRAINT `fk_Klient` FOREIGN KEY (`KLIENT_ID`) REFERENCES `Klienci` (`ID`),
-  ADD CONSTRAINT `fk_Seans` FOREIGN KEY (`SEANS_ID`) REFERENCES `Seanse` (`ID`),
-  ADD CONSTRAINT `fk_Sprzedawca` FOREIGN KEY (`SPRZEDAWCA_ID`) REFERENCES `Sprzedawcy` (`ID`);
+ALTER TABLE `bilety`
+  ADD CONSTRAINT `fk_Klient` FOREIGN KEY (`KLIENT_ID`) REFERENCES `klienci` (`ID`),
+  ADD CONSTRAINT `fk_Seans` FOREIGN KEY (`SEANS_ID`) REFERENCES `seanse` (`ID`),
+  ADD CONSTRAINT `fk_Sprzedawca` FOREIGN KEY (`SPRZEDAWCA_ID`) REFERENCES `sprzedawcy` (`ID`);
 
 --
--- Constraints for table `Filmy_Rodzaj`
+-- Constraints for table `filmy_rodzaj`
 --
-ALTER TABLE `Filmy_Rodzaj`
-  ADD CONSTRAINT `fk_Filmy` FOREIGN KEY (`FILMY_ID`) REFERENCES `Filmy` (`ID`),
-  ADD CONSTRAINT `fk_Rodzaj_Filmu` FOREIGN KEY (`RODZAJ_ID`) REFERENCES `Rodzaj_Filmu` (`ID`);
+ALTER TABLE `filmy_rodzaj`
+  ADD CONSTRAINT `fk_Filmy` FOREIGN KEY (`FILMY_ID`) REFERENCES `filmy` (`ID`),
+  ADD CONSTRAINT `fk_Rodzaj_Filmu` FOREIGN KEY (`RODZAJ_ID`) REFERENCES `rodzaj_filmu` (`ID`);
 
 --
--- Constraints for table `Seanse`
+-- Constraints for table `seanse`
 --
-ALTER TABLE `Seanse`
-  ADD CONSTRAINT `fk_Film` FOREIGN KEY (`FILM_ID`) REFERENCES `Filmy` (`ID`),
-  ADD CONSTRAINT `fk_Sale` FOREIGN KEY (`SALA_ID`) REFERENCES `Sale` (`ID`);
+ALTER TABLE `seanse`
+  ADD CONSTRAINT `fk_Film` FOREIGN KEY (`FILM_ID`) REFERENCES `filmy` (`ID`),
+  ADD CONSTRAINT `fk_Sale` FOREIGN KEY (`SALA_ID`) REFERENCES `sale` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
