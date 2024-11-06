@@ -39,7 +39,7 @@
             }
 
             if (isset($_SESSION["username"])) {
-                header("Location: welcome.php");
+                header("Location: database.php");
                 exit();
             }
 
@@ -55,7 +55,7 @@
                     if ($user["Haslo"] == $password) {
                         $_SESSION["username"] = $user["Nazwa"];
                         $_SESSION["user_id"] = $user["ID"];
-                        header("Location: welcome.php");
+                        header("Location: database.php");
                         exit();
                     } else {
                         echo "Incorrect password!";
