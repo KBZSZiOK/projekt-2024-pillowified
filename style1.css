@@ -57,9 +57,21 @@ form {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    input {
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+    }
 }
 
 #sender {
     width: 50%;
     height: 20%;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+#sender:hover {
+    background-color: gray;
 }
