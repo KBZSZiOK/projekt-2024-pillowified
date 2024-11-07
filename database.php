@@ -96,6 +96,25 @@
                     echo "Welcome, " . $_SESSION['username'] . "!";
                     $_SESSION['greeted'] = true;
                 }
+                if (isset($_GET["page"])) {
+                    if ($_GET["page"] == "Settings") {
+                        echo "<h1>Settings</h1>
+                        <br>
+                        <form method='get' name='page'>
+                        <ul>
+                            <li><input type='submit' value='Theme' style='border:0; background-color:transparent; color:blue; text-decoration:underline;'></li>
+                        </ul>
+                        </form>";
+                    }
+                }
+                if (isset($_GET["sub_settings"])) {
+                    if ($_GET["sub_settings"] == "Theme") {
+                        echo "aaa";
+                    } 
+                }
+                if (isset($_GET[""])) {
+                    echo "smth";
+                }
             ?>
         </div>
         <footer><h5>Logged in as:
