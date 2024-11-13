@@ -118,7 +118,6 @@
         </header>
         <div id="main">
             <?php
-
                 if ($_SESSION['greeted'] == false) {
                     echo "Welcome, " . $_SESSION['username'] . "!";
                     $_SESSION['greeted'] = true;
@@ -159,7 +158,7 @@
                             case "waltuh":
                                 $queryString = $_SERVER['QUERY_STRING'];
 
-                                echo '<div class="tenor-gif-embed" data-postid="25293991" data-share-method="host" data-aspect-ratio="1.33333" data-width="100%"><a href="https://tenor.com/view/walter-white-walter-white-falling-gif-25293991">Walter White Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>';
+                                echo '<div class="tenor-gif-embed" data-postid="25293991" data-share-method="host" data-aspect-ratio="1.33333" data-width="20%"><a href="https://tenor.com/view/walter-white-walter-white-falling-gif-25293991">Walter White Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>';
                                 break;
                         }
                     }

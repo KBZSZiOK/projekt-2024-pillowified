@@ -23,7 +23,7 @@ header {
         display: flex;
         justify-content: center;
         align-items: center;
-        letter-spacing: calc(0.5vw + 1vh);
+        letter-spacing: calc(0.5vw + 0.5vh);
         font-size: calc(1vw + 1vh);
     }
     h5 {
