@@ -62,3 +62,8 @@ footer {
     border-top: 1px solid white;
     min-height: 50px;
 }
+
+.bordered {
+    border-width: 1px; /* Ensure bordered elements maintain their borders */
+}
+

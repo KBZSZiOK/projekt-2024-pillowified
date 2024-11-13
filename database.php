@@ -25,8 +25,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Database</title>
         <link rel="stylesheet" href="style.css">
+        <style>
+            .bordered, #buttons {
+                border-color: <?php echo $_SESSION["textcolor"]; ?> !important;
+                color: <?php echo $_SESSION["textcolor"]; ?> !important;
+            }
+        </style>
     </head>
-    <body style="background-color: <?php echo $_SESSION['bgtheme']; ?>; color: <?php echo $_SESSION["textcolor"]; ?>;">
+    <body style="background-color: <?php echo $_SESSION['bgtheme']; ?>; color: <?php echo $_SESSION["textcolor"]; ?>; border-color: <?php echo $_SESSION["textcolor"]; ?>;">
+
         <?php
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 if (isset($_GET["page"])) {
@@ -78,10 +85,10 @@
                 exit();
             }
         ?>
-        <header>
+        <header class="bordered">
             <h2>Kino Database Manager</h2>
             <form method="get" id="buttons">
-                <input type="submit" name="page" value="Home">
+                <input type="submit" name="page" value="Home" class="bordered">
                 <?php
                     $host = "localhost";
                     $dbUsername = "root";
@@ -100,13 +107,13 @@
                     while ($user = $result->fetch_assoc()) {
                         if ($user["ID"] == $_SESSION["user_id"]) {
                             if ($user["Access"] == "1") {
-                                echo '<input type="submit" name="page" value="Database">';
+                                echo '<input type="submit" name="page" value="Database" class="bordered">';
                             }
                         }
                     }
                 ?>
-                <input type="submit" name="page" value="Settings">
-                <input type="submit" name="page" value="Logout">
+                <input type="submit" name="page" value="Settings" class="bordered">
+                <input type="submit" name="page" value="Logout" class="bordered">
             </form>
         </header>
         <div id="main">
@@ -139,8 +146,8 @@
                                         <label for='bgtheme'>Background Color:</label>
                                         <input type='color' id='bgtheme' name='bgtheme' value='" . htmlspecialchars($_SESSION['bgtheme']) . "'><br>
                                         <label for='textcolor'>Text Color:</label>
-                                        <input type='color' id='textcolor' name='textcolor' value='" . htmlspecialchars($_SESSION['bgtheme']) . "'>
-                                        <input type='hidden' name='id' value='1'>
+                                        <input type='color' id='textcolor' name='textcolor' value='" . htmlspecialchars($_SESSION['textcolor']) . "'>
+                                        <input type='hidden' name='id' value='1'><br>
                                         <input type='submit' value='Submit'>
                                     </form>";
                         }
@@ -151,12 +158,13 @@
                         if ($_POST["id"] == "1") {
                             $_SESSION["bgtheme"] = $_POST["bgtheme"];
                             $_SESSION["textcolor"] = $_POST["textcolor"];
+                            header("Location: database.php?page=Settings");
                         }
                     }
                 }
             ?>
         </div>
-        <footer><h5>Logged in as:
+        <footer class="bordered"><h5>Logged in as:
         <?php 
             if (!isset($_SESSION['username'])) {
                 session_destroy();
