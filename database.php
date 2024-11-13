@@ -85,7 +85,7 @@
                 exit();
             }
         ?>
-        <header class="bordered">
+        <header class="bordered" style="background-color: <?php echo $_SESSION['bgtheme']; ?>;">
             <h2>Kino Database Manager</h2>
             <form method="get" id="buttons">
                 <input type="submit" name="page" value="Home" class="bordered">
@@ -130,26 +130,37 @@
                                 $queryString = $_SERVER['QUERY_STRING'];
                 
                                 echo "<h1>Settings</h1>
-                                    <br>
-                                    <form method='get' name='page' action='?" . htmlspecialchars($queryString) . "'>
-                                        <ul>
-                                            <li><input type='submit' name='page' value='Theme' style='border:0; background-color:transparent; color:blue; text-decoration:underline;'></li>
-                                        </ul>
-                                    </form>";
+                                <br>
+                                <form method='get' name='page' action='?" . htmlspecialchars($queryString) . "'>
+                                    <ul>
+                                        <li><input type='submit' name='page' value='Theme' style='border:0; background-color:transparent; color:" . $_SESSION['textcolor'] . "; text-decoration:underline;'></li>
+                                    </ul>
+                                </form>";
                                 break;
                             case "Theme":
                                 $queryString = $_SERVER['QUERY_STRING'];
 
                                 echo "<h1>Theme</h1>
-                                    <br>
-                                    <form method='post' name='page' action='?" . htmlspecialchars($queryString) . "'>
-                                        <label for='bgtheme'>Background Color:</label>
-                                        <input type='color' id='bgtheme' name='bgtheme' value='" . htmlspecialchars($_SESSION['bgtheme']) . "'><br>
-                                        <label for='textcolor'>Text Color:</label>
-                                        <input type='color' id='textcolor' name='textcolor' value='" . htmlspecialchars($_SESSION['textcolor']) . "'>
-                                        <input type='hidden' name='id' value='1'><br>
-                                        <input type='submit' value='Submit'>
-                                    </form>";
+                                <br>
+                                <form method='post' name='page' action='?" . htmlspecialchars($queryString) . "'>
+                                    <label for='bgtheme'>Background Color:</label>
+                                    <input type='color' id='bgtheme' name='bgtheme' value='" . htmlspecialchars($_SESSION['bgtheme']) . "'><br>
+                                    <label for='textcolor'>Text Color:</label>
+                                    <input type='color' id='textcolor' name='textcolor' value='" . htmlspecialchars($_SESSION['textcolor']) . "'>
+                                    <input type='hidden' name='id' value='1'><br>
+                                    <input type='submit' value='Submit'>
+                                </form>";
+                                break;
+                            case "Database":
+                                $queryString = $_SERVER['QUERY_STRING'];
+
+                                echo "yo";
+                                break;
+                            case "waltuh":
+                                $queryString = $_SERVER['QUERY_STRING'];
+
+                                echo '<div class="tenor-gif-embed" data-postid="25293991" data-share-method="host" data-aspect-ratio="1.33333" data-width="100%"><a href="https://tenor.com/view/walter-white-walter-white-falling-gif-25293991">Walter White Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>';
+                                break;
                         }
                     }
                 }
@@ -164,7 +175,7 @@
                 }
             ?>
         </div>
-        <footer class="bordered"><h5>Logged in as:
+        <footer class="bordered" style="background-color: <?php echo $_SESSION['bgtheme']; ?>;"><h5>Logged in as:
         <?php 
             if (!isset($_SESSION['username'])) {
                 session_destroy();
