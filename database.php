@@ -153,7 +153,13 @@
                             case "Database":
                                 $queryString = $_SERVER['QUERY_STRING'];
 
-                                echo "yo";
+                                echo '
+                                <div id="left" class="bordered">
+                                    AAAAAAAAAAAAAAAAA
+                                </div>
+                                <div id="right" class="bordered">
+                                    BBBBBBBBBBBBBBBBB
+                                </div>';
                                 break;
                             case "waltuh":
                                 $queryString = $_SERVER['QUERY_STRING'];

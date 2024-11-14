@@ -70,3 +70,17 @@ footer {
     border-width: 1px;
 }
 
+#left {
+    position: fixed;
+    height: 100%;
+    width: 50%;
+    border-right: 1px solid white;
+}
+
+#right {
+    position: fixed;
+    height: 100%;
+    width: 50%;
+    left: 50%;
+    border-left: 1px solid white;
+}
