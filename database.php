@@ -150,73 +150,97 @@
                                     <input type='submit' value='Submit'>
                                 </form>";
                                 break;
-                                case "Database":
-                                    $queryString = $_SERVER['QUERY_STRING'];
-                                    
-                                    $host = "localhost";
-                                    $dbUsername = "root";
-                                    $dbPassword = "";
-                                    $dbName = "kino";
+                            case "Database":
+                                $queryString = $_SERVER['QUERY_STRING'];
+                                
+                                $host = "localhost";
+                                $dbUsername = "root";
+                                $dbPassword = "";
+                                $dbName = "kino";
                         
-                                    $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
-                        
-                                    if ($conn->connect_error) {
-                                        die("Connection failed: ".$conn->connect_error);
-                                    }
-                        
-                                    $sql = "SELECT * FROM uzytkownicy";
-                                    $result = $conn->query($sql);
+                                $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
+                    
+                                if ($conn->connect_error) {
+                                    die("Connection failed: ".$conn->connect_error);
+                                }
+                    
+                                $sql = "SELECT * FROM uzytkownicy";
+                                $result = $conn->query($sql);
 
-                                    $table_query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kino'";
-                                    $table_result = $conn->query($table_query);
+                                $table_query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kino'";
+                                $table_result = $conn->query($table_query);
 
-                                    $tables = [];
-                                    if ($table_result) {
-                                        while ($row = $table_result->fetch_assoc()) {
-                                            $tables[] = $row['TABLE_NAME'];
-                                        }
+                                $tables = [];
+                                if ($table_result) {
+                                    while ($row = $table_result->fetch_assoc()) {
+                                        $tables[] = $row['TABLE_NAME'];
                                     }
-                                    while ($user = $result->fetch_assoc()) {
-                                        if ($user["ID"] == $_SESSION["user_id"]) {
-                                            if ($user["Modify"] == "1") {
+                                }
+                                $_SESSION['tables_array'] = $tables;
+                                while ($user = $result->fetch_assoc()) {
+                                    if ($user["ID"] == $_SESSION["user_id"]) {
+                                        if ($user["Modify"] == "1") {
+                                            echo '
+                                                <div id="left" class="bordered" style="width:25%;">
+                                                    <h2>Table Modifier</h2>
+                                                    <form method="POST">
+                                                        <select name="actioner" id="actioner">';
+                                                        foreach ($tables as $table_name) {
+                                                            echo '<option value="' . htmlspecialchars($table_name) . '">' . htmlspecialchars($table_name) . '</option>';
+                                                        }
+                                                    echo '
+                                                        </select>
+                                                        <input type="hidden" name="id" value="2">
+                                                        <input type="submit" value="Go" name="tablechooser"><br>
+                                                    </form>';
+                                            if (isset($_SESSION['chosentable'])) {
+                                                echo 'Chosen table: ' . htmlspecialchars($_SESSION["chosentable"]);
                                                 echo '
-                                                    <div id="left" class="bordered" style="width:25%;">
-                                                        <h2>Table Modifier<h2>
-                                                        <form method="POST">
-                                                            <select name="actioner" id="actioner">';
-                                                        
-                                                            foreach ($tables as $table_name) {
-                                                                echo '<option value="' . htmlspecialchars($table_name) . '">' . htmlspecialchars($table_name) . '</option>';
+                                                    <form method="POST">
+                                                        <br><br>
+                                                        <div>
+                                                            <h5>Row Adder</h5>';
+                                                            if (isset($_SESSION['columns_array'])) {
+                                                                $columns_array = $_SESSION['columns_array'];
+                                                                foreach ($columns_array as $column_name) {
+                                                                    echo '<label for="' . htmlspecialchars($column_name) . '">'.htmlspecialchars($column_name).'</label>';
+                                                                    echo '<input type="textbox" name="' . htmlspecialchars($column_name) . '" id="' . htmlspecialchars($column_name) . '"><br>';
+                                                                }
+                                                            } else {
+                                                                echo "No columns available.";
                                                             }
-
-                                                            echo '
-                                                            </select>
-                                                            <br><br><div>
-                                                                <h5>Row Adder</h5>
-                                                                    <input type="textbox" name="changer-text">
-                                                                    <input type="hidden" name="id" value="2">
-                                                                    <input type="submit" value="Add" name="changer">
-                                                            </div>
-                                                            <div>
-                                                                <h5>Row Remover</h5>
-                                                                    <input type="textbox" name="changer-text">
-                                                                    <input type="hidden" name="id" value="3">
-                                                                    <input type="submit" value="Remove" name="changer">
-                                                            </div>
+                                                            echo '<input type="hidden" name="id" value="3">
+                                                            <input type="submit" value="Add" name="changer">
+                                                        </div>
                                                         </form>
-                                                    </div>
-                                                    <div id="right" class="bordered" style="width:75%; left:25%;">
-                                                        BBBBBBBBBBBBBBBBB
-                                                    </div>';
-                                            } else {
-                                                echo '
-                                                    <div id="right" style="width:100%; height:100%;">
-                                                        BBBBBBBBBBBBBBBBB
-                                                    </div>';
+                                                        <form method="POST">
+                                                        <div>
+                                                            <h5>Row Remover</h5>';
+                                                            if (isset($_SESSION['keys'])) {
+                                                                $keys = $_SESSION['keys'];
+                                                                foreach ($keys as $key_name) {
+                                                                    echo '<label for="' . htmlspecialchars($key_name) . '">'.htmlspecialchars($key_name).'</label>';
+                                                                    echo '<input type="textbox" name="' . htmlspecialchars($key_name) . '" id="' . htmlspecialchars($key_name) . '"><br>';
+                                                                }
+                                                            } else {
+                                                                echo "No keys available.";
+                                                            }
+                                                            echo '<input type="submit" value="Remove" name="changer">
+                                                        </div>
+                                                        <input type="hidden" name="id" value="4">
+                                                        </form>';
                                             }
+                                            echo '
+                                                </div>';
                                         }
+                                        
+                                        echo '
+                                            <div id="right" class="bordered" style="width:75%; left:25%;">
+                                                BBBBBBBBBBBBBBBBB
+                                            </div>';
                                     }
-                                    break;
+                                }
+                                break;
                             case "waltuh":
                                 $queryString = $_SERVER['QUERY_STRING'];
 
@@ -231,7 +255,45 @@
                             $_SESSION["bgtheme"] = $_POST["bgtheme"];
                             $_SESSION["textcolor"] = $_POST["textcolor"];
                             header("Location: database.php?page=Settings");
-                        } elseif ($_POST["id"] == "2" || $_POST["id"] == "3") {
+                        } elseif ($_POST["id"] == "2") {
+
+                            $_SESSION["chosentable"] = $_POST["actioner"];
+                            $host = "localhost";
+                            $dbUsername = "root";
+                            $dbPassword = "";
+                            $dbName = "kino";
+
+                            $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
+
+                            if ($conn->connect_error) {
+                                die("Connection failed: ".$conn->connect_error);
+                            }
+
+                            $columns_query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = 'kino'";
+                            $columns_result = $conn->query($columns_query);
+
+                            $key_query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '". $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = 'kino' AND CONSTRAINT_NAME = 'PRIMARY'";
+                            $key_result = $conn->query($key_query);
+
+                            $columns_array = [];
+                            if ($columns_result) {
+                                while ($column = $columns_result->fetch_assoc()) {
+                                    $columns_array[] = $column['COLUMN_NAME'];
+                                }
+                            }
+
+                            $keys = [];
+                            if ($key_result) {
+                                while ($key = $key_result->fetch_assoc()) {
+                                    $keys[] = $key['COLUMN_NAME'];
+                                }
+                            }
+                            $_SESSION['keys'] = $keys;
+                            $_SESSION['columns_array'] = $columns_array;
+                            header("Location: database.php?page=Database");
+                        } elseif ($_POST["id"] == "3") {
+                            header("Location: database.php?page=Database");
+                        } elseif ($_POST["id"] == "4") {
                             header("Location: database.php?page=Database");
                         }
                     }
