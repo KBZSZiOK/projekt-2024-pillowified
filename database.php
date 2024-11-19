@@ -150,17 +150,73 @@
                                     <input type='submit' value='Submit'>
                                 </form>";
                                 break;
-                            case "Database":
-                                $queryString = $_SERVER['QUERY_STRING'];
+                                case "Database":
+                                    $queryString = $_SERVER['QUERY_STRING'];
+                                    
+                                    $host = "localhost";
+                                    $dbUsername = "root";
+                                    $dbPassword = "";
+                                    $dbName = "kino";
+                        
+                                    $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
+                        
+                                    if ($conn->connect_error) {
+                                        die("Connection failed: ".$conn->connect_error);
+                                    }
+                        
+                                    $sql = "SELECT * FROM uzytkownicy";
+                                    $result = $conn->query($sql);
 
-                                echo '
-                                <div id="left" class="bordered">
-                                    AAAAAAAAAAAAAAAAA
-                                </div>
-                                <div id="right" class="bordered">
-                                    BBBBBBBBBBBBBBBBB
-                                </div>';
-                                break;
+                                    $table_query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kino'";
+                                    $table_result = $conn->query($table_query);
+
+                                    $tables = [];
+                                    if ($table_result) {
+                                        while ($row = $table_result->fetch_assoc()) {
+                                            $tables[] = $row['TABLE_NAME'];
+                                        }
+                                    }
+                                    while ($user = $result->fetch_assoc()) {
+                                        if ($user["ID"] == $_SESSION["user_id"]) {
+                                            if ($user["Modify"] == "1") {
+                                                echo '
+                                                    <div id="left" class="bordered" style="width:25%;">
+                                                        <h2>Table Modifier<h2>
+                                                        <form method="POST">
+                                                            <select name="actioner" id="actioner">';
+                                                        
+                                                            foreach ($tables as $table_name) {
+                                                                echo '<option value="' . htmlspecialchars($table_name) . '">' . htmlspecialchars($table_name) . '</option>';
+                                                            }
+
+                                                            echo '
+                                                            </select>
+                                                            <br><br><div>
+                                                                <h5>Row Adder</h5>
+                                                                    <input type="textbox" name="changer-text">
+                                                                    <input type="hidden" name="id" value="2">
+                                                                    <input type="submit" value="Add" name="changer">
+                                                            </div>
+                                                            <div>
+                                                                <h5>Row Remover</h5>
+                                                                    <input type="textbox" name="changer-text">
+                                                                    <input type="hidden" name="id" value="3">
+                                                                    <input type="submit" value="Remove" name="changer">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div id="right" class="bordered" style="width:75%; left:25%;">
+                                                        BBBBBBBBBBBBBBBBB
+                                                    </div>';
+                                            } else {
+                                                echo '
+                                                    <div id="right" style="width:100%; height:100%;">
+                                                        BBBBBBBBBBBBBBBBB
+                                                    </div>';
+                                            }
+                                        }
+                                    }
+                                    break;
                             case "waltuh":
                                 $queryString = $_SERVER['QUERY_STRING'];
 
@@ -175,6 +231,8 @@
                             $_SESSION["bgtheme"] = $_POST["bgtheme"];
                             $_SESSION["textcolor"] = $_POST["textcolor"];
                             header("Location: database.php?page=Settings");
+                        } elseif ($_POST["id"] == "2" || $_POST["id"] == "3") {
+                            header("Location: database.php?page=Database");
                         }
                     }
                 }
