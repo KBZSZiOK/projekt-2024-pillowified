@@ -235,9 +235,28 @@
                                         }
                                         
                                         echo '
-                                            <div id="right" class="bordered" style="width:75%; left:25%;">
-                                                BBBBBBBBBBBBBBBBB
-                                            </div>';
+                                            <div id="right" class="bordered" style="';
+                                            if ($user["Modify"] == "1") {
+                                                echo 'width:75%; left:25%;';
+                                            } else {
+                                                echo 'width:100%;';
+                                            }
+                                            echo '"> <h1>Table Previewer</h1>
+                                            <form method="post">
+                                            <select name="table_previewer" id="table_previewer">';
+                                            foreach ($tables as $table_name) {
+                                                echo '<option value="' . htmlspecialchars($table_name) . '">' . htmlspecialchars($table_name) . '</option>';
+                                            }
+                                            echo '
+                                            </select>';
+                                            echo '<input type="hidden" name="id" value="5">';
+                                            echo '<input type="submit" value="Go" name="tablechooser">
+                                            </form>';
+                                            if (isset($_SESSION['previewtable'])) {
+                                                echo 'Chosen table: ' . htmlspecialchars($_SESSION["previewtable"]);
+                                            }
+
+
                                     }
                                 }
                                 break;
@@ -245,7 +264,7 @@
                                 $queryString = $_SERVER['QUERY_STRING'];
 
                                 echo '<div class="tenor-gif-embed" data-postid="25293991" data-share-method="host" data-aspect-ratio="1.33333" data-width="20%"><a href="https://tenor.com/view/walter-white-walter-white-falling-gif-25293991">Walter White Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>';
-                                break;
+                                break;  
                         }
                     }
                 }
@@ -294,6 +313,10 @@
                         } elseif ($_POST["id"] == "3") {
                             header("Location: database.php?page=Database");
                         } elseif ($_POST["id"] == "4") {
+                            header("Location: database.php?page=Database");
+                        } elseif ($_POST["id"] == "5") {
+                            $_SESSION['previewtable'] = $_POST["table_previewer"];
+
                             header("Location: database.php?page=Database");
                         }
                     }
