@@ -252,11 +252,25 @@
                                             echo '<input type="hidden" name="id" value="5">';
                                             echo '<input type="submit" value="Go" name="tablechooser">
                                             </form>';
-                                            if (isset($_SESSION['previewtable'])) {
+                                            if (isset($_SESSION['previewtable']) && isset($_SESSION['columns_tablepreviewer']) && isset($_SESSION['rows_tablepreviewer'])) {
                                                 echo 'Chosen table: ' . htmlspecialchars($_SESSION["previewtable"]);
+                                                echo '<table>
+                                                        <tr>';
+                                                foreach ($_SESSION['columns_tablepreviewer'] as $column_name) {
+                                                    echo "<th>" . htmlspecialchars($column_name) . "</th>";
+                                                }
+                                                echo '</tr>';
+                                                foreach ($_SESSION['rows_tablepreviewer'] as $row) {
+                                                    echo '<tr>';
+                                                    foreach ($row as $value) {
+                                                        echo '<td>' . htmlspecialchars($value) . '</td>';
+                                                    }
+                                                    echo '</tr>';
+                                                }
+                                                echo '</table>';
+                                            } else {
+                                                echo "No data available to display.";
                                             }
-
-
                                     }
                                 }
                                 break;
@@ -316,6 +330,28 @@
                             header("Location: database.php?page=Database");
                         } elseif ($_POST["id"] == "5") {
                             $_SESSION['previewtable'] = $_POST["table_previewer"];
+
+                            $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = 'kino'";
+                            $columns_result_tablepreviewer = $conn->query($columns_query_tablepreviewer);
+
+                            $columns_tablepreviewer = [];
+                            if ($columns_result_tablepreviewer) {
+                                while ($column = $columns_result_tablepreviewer->fetch_assoc()) {
+                                    $columns_tablepreviewer[] = $column['COLUMN_NAME'];
+                                }
+                            }
+                            $_SESSION['columns_tablepreviewer'] = $columns_tablepreviewer;
+
+                            $rows_query_tablepreviewer = "SELECT * FROM " . $conn->real_escape_string($_SESSION['previewtable']);
+                            $rows_result_tablepreviewer = $conn->query($rows_query_tablepreviewer);
+
+                            $rows_tablepreviewer = [];
+                            if ($rows_result_tablepreviewer) {
+                                while ($row = $rows_result_tablepreviewer->fetch_assoc()) {
+                                    $rows_tablepreviewer[] = $row;
+                                }
+                            }
+                            $_SESSION['rows_tablepreviewer'] = $rows_tablepreviewer;
 
                             header("Location: database.php?page=Database");
                         }
