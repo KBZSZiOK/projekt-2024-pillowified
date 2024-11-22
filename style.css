@@ -68,6 +68,9 @@ footer {
 
 .bordered {
     border-width: 1px;
+    th, td {
+        border: 1px solid;
+    }
 }
 
 #left {
