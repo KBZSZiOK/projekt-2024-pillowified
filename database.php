@@ -184,7 +184,7 @@
                                         if ($user["Modify"] == "1") {
                                             echo '
                                                 <div id="left" class="bordered"><br>
-                                                    <div><h1>Table Modifier</h1>
+                                                    <h1>Table Modifier</h1>
                                                     <form method="POST">
                                                         <select name="actioner" id="actioner">';
                                                         foreach ($tables as $table_name) {
@@ -194,7 +194,7 @@
                                                         </select>';
                                                         echo '<input type="hidden" name="id" value="2">';
                                                         echo '<input type="submit" value="Go" name="tablechooser"><br>';
-                                                    echo '</form></div>';
+                                                    echo '</form>';
                                             if (isset($_SESSION['chosentable'])) {
                                                 echo 'Chosen table: ' . htmlspecialchars($_SESSION["chosentable"]);
                                                 echo '<br><br>
