@@ -396,7 +396,7 @@
                                         }
                             
                                         
-                                        $columns[] = "`" . $column_name . "`";  // Enclose column names in backticks to avoid SQL conflicts
+                                        $columns[] = "`" . $column_name . "`";
                                         $values[] = "'" . $conn->real_escape_string($value) . "'";
                                     }
                                 }
