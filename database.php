@@ -71,6 +71,7 @@
                 while ($user = $result->fetch_assoc()) {
                     if ($user["ID"] == $_SESSION["user_id"]) {
                         $user_found = true;
+                        $_SESSION['user'] = $user;
                     }
                 }
         
@@ -97,13 +98,11 @@
                     $sql = "SELECT * FROM uzytkownicy";
                     $result = $conn->query($sql);
                      
-                    while ($user = $result->fetch_assoc()) {
-                        if ($user["ID"] == $_SESSION["user_id"]) {
-                            if ($user["Access"] == "1") {
-                                echo '<input type="submit" name="page" value="Database" class="bordered">';
-                            }
-                        }
+                    $user = $_SESSION['user'];
+                    if ($user["Access"] == "1") {
+                        echo '<input type="submit" name="page" value="Database" class="bordered">';
                     }
+                     
                 ?>
                 <input type="submit" name="page" value="Settings" class="bordered">
                 <input type="submit" name="page" value="Logout" class="bordered">
@@ -168,9 +167,6 @@
                                 if ($conn->connect_error) {
                                     die("Connection failed: ".$conn->connect_error);
                                 }
-                    
-                                $sql = "SELECT * FROM uzytkownicy";
-                                $result = $conn->query($sql);
 
                                 $table_query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kino'";
                                 $table_result = $conn->query($table_query);
@@ -184,8 +180,7 @@
                                     }
                                 }
                                 $_SESSION['tables_array'] = $tables;
-                                while ($user = $result->fetch_assoc()) {
-                                    if ($user["ID"] == $_SESSION["user_id"]) {
+                                        $user = $_SESSION['user'];
                                         if ($user["Modify"] == "1") {
                                             echo '
                                                 <div id="left" class="bordered"><br>
@@ -309,13 +304,16 @@
                                         if ($user["Modify"] == "0" && $user["Select"] == "0") {
                                             header("Location: database.php?page=waltuh");
                                         }   
-                                    }
-                                }
+                                    
+                                
                                 echo '</div>';
                                 break;
                             case "waltuh":
                                 $queryString = $_SERVER['QUERY_STRING'];
-
+                                $user = $_SESSION['user'];
+                                if ($user["Modify"] == "1" || $user["Select"] == "1" || $user["Access"] == "0") {
+                                    header("Location: database.php?page=Home");
+                                }   
                                 echo '<div id="waltuh">
                                     <h1>NO PERMS?</h1>
                                     <div class="tenor-gif-embed" data-postid="18043850" data-share-method="host" data-aspect-ratio="1.3617" data-width="100%"><a href="https://tenor.com/view/walter-white-falling-fast-gif-18043850">Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
