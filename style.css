@@ -166,7 +166,13 @@ footer {
     border-bottom: 1px solid white;
     font-size: calc(1vw + 2vh);
     display: flex;
-    align-items: center;
+    align-items: end;
+    @media only screen and (max-height: 425px) {
+        height: 10%;
+    }
+    @media only screen and (max-height: 300px) {
+        height: 15%;
+    }
 }
 
 #scroller span {
