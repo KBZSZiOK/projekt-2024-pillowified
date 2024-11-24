@@ -121,7 +121,14 @@
                                 <div id='scroller'>
                                     <span>please work</span>
                                 </div>";
-                                echo "<div id='main-home'>";
+                                echo "<div id='main-home'>
+                                <div>
+                                    <h1>Welcome to our Cinema!</h1>
+                                    <p>no idea what to put here ¯\_(ツ)_/¯
+                                    <br>wait for updates ig
+                                    <br>(surely will add a special page for visitors)</p>
+
+                                </div>";
                                 if ($_SESSION['greeted'] == false) {
                                     echo "Welcome, " . $_SESSION['username'] . "!";
                                     $_SESSION['greeted'] = true;
@@ -171,7 +178,9 @@
                                 $tables = [];
                                 if ($table_result) {
                                     while ($row = $table_result->fetch_assoc()) {
-                                        $tables[] = $row['TABLE_NAME'];
+                                        if ($row['TABLE_NAME'] != "uzytkownicy") {
+                                            $tables[] = $row['TABLE_NAME'];
+                                        }
                                     }
                                 }
                                 $_SESSION['tables_array'] = $tables;

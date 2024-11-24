@@ -95,6 +95,14 @@ header {
     }
 }
 
+#main-home {
+    height: 88vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 footer {
     position: fixed;
     width: 100%;
@@ -150,6 +158,7 @@ footer {
 }
 
 #scroller {
+    height: 2vh;
     width: 100vw;
     overflow: hidden;
     white-space: nowrap;
