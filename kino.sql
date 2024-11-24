@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 07, 2024 at 12:31 AM
+-- Generation Time: Lis 25, 2024 at 12:13 AM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -75,7 +75,9 @@ INSERT INTO `filmy` (`ID`, `TYTUŁ`, `REŻYSER`, `CZAS_TRWANIA`) VALUES
 (7, 'Dune', 'Denis Villeneuve', 126),
 (8, 'Toy Story', 'Pixar Animation Studios', 87),
 (9, 'The Lord of the Rings: The Fellowship of the Ring', 'Peter Jackson', 112),
-(10, 'Jurassic Park', 'Steven Spielberg', 130);
+(10, 'Jurassic Park', 'Steven Spielberg', 130),
+(11, 'Jazda', 'Rysiu Gąsowski', 104),
+(12, 'Robi Lore', 'Krzysztof Gosz', 60);
 
 -- --------------------------------------------------------
 
@@ -147,19 +149,16 @@ CREATE TABLE `rodzaj_filmu` (
 --
 
 INSERT INTO `rodzaj_filmu` (`ID`, `NAZWA`) VALUES
-(1, 'Shrek'),
-(2, 'Shrek 2'),
-(3, 'Shrek 3'),
+(1, 'Romantic'),
+(2, 'Documentary'),
+(3, 'Animation'),
 (4, 'Action'),
 (5, 'Comedy'),
 (6, 'Drama'),
 (7, 'Horror'),
 (8, 'Thriller'),
 (9, 'Science Fiction'),
-(10, 'Fantasy'),
-(11, 'Romantic'),
-(12, 'Documentary'),
-(13, 'Animation');
+(10, 'Fantasy');
 
 -- --------------------------------------------------------
 
@@ -211,7 +210,8 @@ INSERT INTO `seanse` (`ID`, `TERMIN`, `SALA_ID`, `FILM_ID`, `LICZBA_WOLNYCH_MIEJ
 (4, '2024-10-31 21:00:00', 3, 3, 70),
 (5, '2024-11-01 19:00:00', 2, 2, 30),
 (6, '2024-11-02 15:00:00', 4, 4, 0),
-(7, '2024-11-03 17:30:00', 5, 5, 150);
+(7, '2024-11-03 17:30:00', 5, 5, 150),
+(8, '2024-11-06 00:00:00', 2, 3, 123);
 
 -- --------------------------------------------------------
 
@@ -263,7 +263,8 @@ CREATE TABLE `uzytkownicy` (
 INSERT INTO `uzytkownicy` (`Nazwa`, `Haslo`, `ID`, `Access`, `Select`, `Modify`) VALUES
 ('admin', 'hotdog32', 1, 1, 1, 1),
 ('moderator', 'kebab123', 2, 1, 1, 0),
-('viewer', 'password', 3, 0, 0, 0);
+('viewer', 'password', 3, 0, 0, 0),
+('kamil', 'west', 19, 1, 0, 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -344,7 +345,7 @@ ALTER TABLE `bilety`
 -- AUTO_INCREMENT for table `filmy`
 --
 ALTER TABLE `filmy`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `filmy_rodzaj`
@@ -374,7 +375,7 @@ ALTER TABLE `sale`
 -- AUTO_INCREMENT for table `seanse`
 --
 ALTER TABLE `seanse`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sprzedawcy`
@@ -386,7 +387,7 @@ ALTER TABLE `sprzedawcy`
 -- AUTO_INCREMENT for table `uzytkownicy`
 --
 ALTER TABLE `uzytkownicy`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
@@ -396,22 +397,23 @@ ALTER TABLE `uzytkownicy`
 -- Constraints for table `bilety`
 --
 ALTER TABLE `bilety`
-  ADD CONSTRAINT `fk_Klient` FOREIGN KEY (`KLIENT_ID`) REFERENCES `klienci` (`ID`),
-  ADD CONSTRAINT `fk_Seans` FOREIGN KEY (`SEANS_ID`) REFERENCES `seanse` (`ID`),
-  ADD CONSTRAINT `fk_Sprzedawca` FOREIGN KEY (`SPRZEDAWCA_ID`) REFERENCES `sprzedawcy` (`ID`);
+  ADD CONSTRAINT `fk_Klient` FOREIGN KEY (`KLIENT_ID`) REFERENCES `klienci` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_Seans` FOREIGN KEY (`SEANS_ID`) REFERENCES `seanse` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_Sprzedawca` FOREIGN KEY (`SPRZEDAWCA_ID`) REFERENCES `sprzedawcy` (`ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `filmy_rodzaj`
 --
 ALTER TABLE `filmy_rodzaj`
   ADD CONSTRAINT `fk_Filmy` FOREIGN KEY (`FILMY_ID`) REFERENCES `filmy` (`ID`),
-  ADD CONSTRAINT `fk_Rodzaj_Filmu` FOREIGN KEY (`RODZAJ_ID`) REFERENCES `rodzaj_filmu` (`ID`);
+  ADD CONSTRAINT `fk_Rodzaj_Filmu` FOREIGN KEY (`RODZAJ_ID`) REFERENCES `rodzaj_filmu` (`ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `seanse`
 --
 ALTER TABLE `seanse`
-  ADD CONSTRAINT `fk_Film` FOREIGN KEY (`FILM_ID`) REFERENCES `filmy` (`ID`),
+  ADD CONSTRAINT `fk_Film` FOREIGN KEY (`FILM_ID`) REFERENCES `filmy` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_Sala` FOREIGN KEY (`SALA_ID`) REFERENCES `sale` (`ID`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_Sale` FOREIGN KEY (`SALA_ID`) REFERENCES `sale` (`ID`);
 COMMIT;
 

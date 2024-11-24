@@ -168,7 +168,7 @@
                                     die("Connection failed: ".$conn->connect_error);
                                 }
 
-                                $table_query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kino'";
+                                $table_query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$conn->real_escape_string($dbName)."'";
                                 $table_result = $conn->query($table_query);
 
                                 $tables = [];
@@ -336,7 +336,7 @@
                             }
 
                             $not_null_columns = [];
-                            $result = $conn->query("SELECT COLUMN_NAME, IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'kino' AND TABLE_NAME = '".$conn->real_escape_string($_SESSION['chosentable'])."'");
+                            $result = $conn->query("SELECT COLUMN_NAME, IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$conn->real_escape_string($dbName)."' AND TABLE_NAME = '".$conn->real_escape_string($_SESSION['chosentable'])."'");
                             if ($result) {
                                 while ($row = $result->fetch_assoc()) {
                                     if ($row['IS_NULLABLE'] === 'NO') {
@@ -345,10 +345,10 @@
                                 }
                             }
 
-                            $columns_query = "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = 'kino'";
+                            $columns_query = "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = '".$conn->real_escape_string($dbName)."'";
                             $columns_result = $conn->query($columns_query);
 
-                            $key_query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '". $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = 'kino' AND CONSTRAINT_NAME = 'PRIMARY'";
+                            $key_query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '". $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = '".$conn->real_escape_string($dbName)."' AND CONSTRAINT_NAME = 'PRIMARY'";
                             $key_result = $conn->query($key_query);
 
                             $columns_array = [];
@@ -415,7 +415,7 @@
                             }
                             
                             if ($_SESSION["previewtable"]) {
-                                $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = 'kino'";
+                                $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = '".$conn->real_escape_string($dbName)."'";
                                 $columns_result_tablepreviewer = $conn->query($columns_query_tablepreviewer);
 
                                 $columns_tablepreviewer = [];
@@ -466,7 +466,7 @@
                             }
 
                             if ($_SESSION["previewtable"]) {
-                                $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = 'kino'";
+                                $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = '".$conn->real_escape_string($dbName)."'";
                                 $columns_result_tablepreviewer = $conn->query($columns_query_tablepreviewer);
 
                                 $columns_tablepreviewer = [];
@@ -493,7 +493,7 @@
                         } elseif ($_POST["id"] == "5") {
                             $_SESSION['previewtable'] = $_POST["table_previewer"];
 
-                            $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = 'kino'";
+                            $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = '".$conn->real_escape_string($dbName)."'";
                             $columns_result_tablepreviewer = $conn->query($columns_query_tablepreviewer);
 
                             $columns_tablepreviewer = [];
