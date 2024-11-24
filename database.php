@@ -299,7 +299,7 @@
                                                 } else {
                                                     echo "No data available to display.";
                                                 }
-                                                echo '<br></div>';
+                                                echo '<br><br></div>';
                                         }
                                         if ($user["Modify"] == "0" && $user["Select"] == "0") {
                                             header("Location: database.php?page=waltuh");
