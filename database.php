@@ -86,17 +86,10 @@
             }
         ?>
         <header class="bordered" style="background-color: <?php echo $_SESSION['bgtheme']; ?>;">
-            <h2>Kino Database Manager</h2>
+            <h2>Goofy Ahh Cinema</h2>
             <form method="get" id="buttons">
                 <input type="submit" name="page" value="Home" class="bordered">
                 <?php
-                    $host = "localhost";
-                    $dbUsername = "root";
-                    $dbPassword = "";
-                    $dbName = "kino";
-        
-                    $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
-        
                     if ($conn->connect_error) {
                         die("Connection failed: ".$conn->connect_error);
                     }
@@ -118,23 +111,33 @@
         </header>
         <div id="main">
             <?php
-                if ($_SESSION['greeted'] == false) {
-                    echo "Welcome, " . $_SESSION['username'] . "!";
-                    $_SESSION['greeted'] = true;
-                }
                 if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     if (isset($_GET['page'])) {
                         switch ($_GET['page']) {
+                            case "Home":
+                                $queryString = $_SERVER['QUERY_STRING'];
+
+                                echo "
+                                <div id='scroller'>
+                                    <span>please work</span>
+                                </div>";
+                                echo "<div id='main-home'>";
+                                if ($_SESSION['greeted'] == false) {
+                                    echo "Welcome, " . $_SESSION['username'] . "!";
+                                    $_SESSION['greeted'] = true;
+                                }
+                                echo "</div>";
+                                break;
                             case "Settings":
                                 $queryString = $_SERVER['QUERY_STRING'];
                 
-                                echo "<h1>Settings</h1>
+                                echo "<div><h1>Settings</h1>
                                 <br>
                                 <form method='get' name='page' action='?" . htmlspecialchars($queryString) . "'>
                                     <ul>
                                         <li><input type='submit' name='page' value='Theme' style='border:0; background-color:transparent; color:" . $_SESSION['textcolor'] . "; text-decoration:underline;'></li>
                                     </ul>
-                                </form>";
+                                </form></div>";
                                 break;
                             case "Theme":
                                 $queryString = $_SERVER['QUERY_STRING'];
@@ -153,13 +156,8 @@
                             case "Database":
                                 $queryString = $_SERVER['QUERY_STRING'];
                                 
-                                $host = "localhost";
-                                $dbUsername = "root";
-                                $dbPassword = "";
-                                $dbName = "kino";
-                        
-                                $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
-                    
+                                echo '<div id="main-database">';
+
                                 if ($conn->connect_error) {
                                     die("Connection failed: ".$conn->connect_error);
                                 }
@@ -181,30 +179,61 @@
                                     if ($user["ID"] == $_SESSION["user_id"]) {
                                         if ($user["Modify"] == "1") {
                                             echo '
-                                                <div id="left" class="bordered" style="width:25%;">
-                                                    <h2>Table Modifier</h2>
+                                                <div id="left" class="bordered"><br>
+                                                    <div><h2>Table Modifier</h2>
                                                     <form method="POST">
                                                         <select name="actioner" id="actioner">';
                                                         foreach ($tables as $table_name) {
                                                             echo '<option value="' . htmlspecialchars($table_name) . '">' . htmlspecialchars($table_name) . '</option>';
                                                         }
                                                     echo '
-                                                        </select>
-                                                        <input type="hidden" name="id" value="2">
-                                                        <input type="submit" value="Go" name="tablechooser"><br>
-                                                    </form>';
+                                                        </select>';
+                                                        echo '<input type="hidden" name="id" value="2">';
+                                                        echo '<input type="submit" value="Go" name="tablechooser"><br>';
+                                                    echo '</form></div>';
                                             if (isset($_SESSION['chosentable'])) {
                                                 echo 'Chosen table: ' . htmlspecialchars($_SESSION["chosentable"]);
-                                                echo '
+                                                echo '<br><br>
                                                     <form method="POST">
-                                                        <br><br>
                                                         <div>
                                                             <h5>Row Adder</h5>';
                                                             if (isset($_SESSION['columns_array'])) {
                                                                 $columns_array = $_SESSION['columns_array'];
-                                                                foreach ($columns_array as $column_name) {
-                                                                    echo '<label for="' . htmlspecialchars($column_name) . '">'.htmlspecialchars($column_name).'</label>';
-                                                                    echo '<input type="textbox" name="' . htmlspecialchars($column_name) . '" id="' . htmlspecialchars($column_name) . '"><br>';
+                                                                $not_null_columns = $_SESSION['not_null_columns'];
+                                                                $keys = $_SESSION['keys'];
+
+                                                                $columns_array = $_SESSION['columns_array'];
+                                                                $columns_data_types = $_SESSION['column_type'];
+                                                    
+                                                                foreach ($columns_array as $index => $column_name) {
+                                                                    if (isset($columns_data_types[$index])) {
+                                                                        $column_type = $columns_data_types[$index];
+                                                        
+                                                                        echo '<label for="' . htmlspecialchars($column_name) . '">' . htmlspecialchars($column_name) . '</label><br>';
+                                                        
+                                                                        $input_type = 'text'; 
+                                                                        if ($column_type == 'int' || $column_type == 'bigint' || $column_type == 'smallint') {
+                                                                            $input_type = 'number';
+                                                                        } elseif ($column_type == 'date' || $column_type == 'datetime' || $column_type == 'timestamp') {
+                                                                            $input_type = 'date';
+                                                                        } elseif ($column_type == 'boolean' || $column_type == 'tinyint') {
+                                                                            $input_type = 'checkbox';
+                                                                        }
+                                                        
+                                                                        echo '<input type="' . $input_type . '" name="' . htmlspecialchars($column_name) . '" id="' . htmlspecialchars($column_name).'"';
+                                                                        
+                                                                    
+                                                                        if (in_array($column_name, $not_null_columns) && !in_array($column_name, $keys) && $input_type != 'checkbox') {
+                                                                            echo ' required';
+                                                                        }
+                                                                        if ($column_type == 'boolean' || $column_type == 'tinyint') {
+                                                                            echo ' value="1"';
+                                                                        }
+
+                                                                        echo '><br>';
+                                                                    } else {
+                                                                        echo "Data type not found for column: " . htmlspecialchars($column_name) . "<br>";
+                                                                    }
                                                                 }
                                                             } else {
                                                                 echo "No columns available.";
@@ -212,15 +241,15 @@
                                                             echo '<input type="hidden" name="id" value="3">
                                                             <input type="submit" value="Add" name="changer">
                                                         </div>
-                                                        </form>
+                                                    </form><br>
                                                         <form method="POST">
                                                         <div>
                                                             <h5>Row Remover</h5>';
                                                             if (isset($_SESSION['keys'])) {
                                                                 $keys = $_SESSION['keys'];
                                                                 foreach ($keys as $key_name) {
-                                                                    echo '<label for="' . htmlspecialchars($key_name) . '">'.htmlspecialchars($key_name).'</label>';
-                                                                    echo '<input type="textbox" name="' . htmlspecialchars($key_name) . '" id="' . htmlspecialchars($key_name) . '"><br>';
+                                                                    echo '<label for="' . htmlspecialchars($key_name) . '">'.htmlspecialchars($key_name).'</label><br>';
+                                                                    echo '<input type="number" name="' . htmlspecialchars($key_name) . '" id="' . htmlspecialchars($key_name) . '"><br>';
                                                                 }
                                                             } else {
                                                                 echo "No keys available.";
@@ -231,53 +260,56 @@
                                                         </form>';
                                             }
                                             echo '
-                                                </div>';
+                                                <br></div>';
                                         }
-                                        
-                                        echo '
-                                            <div id="right" class="bordered" style="';
-                                            if ($user["Modify"] == "1") {
-                                                echo 'width:75%; left:25%;';
-                                            } else {
-                                                echo 'width:100%;';
-                                            }
-                                            echo '"> <h1>Table Previewer</h1>
-                                            <form method="post">
-                                            <select name="table_previewer" id="table_previewer">';
-                                            foreach ($tables as $table_name) {
-                                                echo '<option value="' . htmlspecialchars($table_name) . '">' . htmlspecialchars($table_name) . '</option>';
-                                            }
+                                        if ($user["Select"] == "1") {
                                             echo '
-                                            </select>';
-                                            echo '<input type="hidden" name="id" value="5">';
-                                            echo '<input type="submit" value="Go" name="tablechooser">
-                                            </form>';
-                                            if (isset($_SESSION['previewtable']) && isset($_SESSION['columns_tablepreviewer']) && isset($_SESSION['rows_tablepreviewer'])) {
-                                                echo 'Chosen table: ' . htmlspecialchars($_SESSION["previewtable"]);
-                                                echo '<table>
-                                                        <tr>';
-                                                foreach ($_SESSION['columns_tablepreviewer'] as $column_name) {
-                                                    echo "<th>" . htmlspecialchars($column_name) . "</th>";
+                                                <div id="right" class="bordered">';
+                                                echo '<h1>Table Previewer</h1>
+                                                <form method="post">
+                                                <select name="table_previewer" id="table_previewer">';
+                                                foreach ($tables as $table_name) {
+                                                    echo '<option value="' . htmlspecialchars($table_name) . '">' . htmlspecialchars($table_name) . '</option>';
                                                 }
-                                                echo '</tr>';
-                                                foreach ($_SESSION['rows_tablepreviewer'] as $row) {
-                                                    echo '<tr>';
-                                                    foreach ($row as $value) {
-                                                        echo '<td>' . htmlspecialchars($value) . '</td>';
+                                                echo '
+                                                </select>';
+                                                echo '<input type="hidden" name="id" value="5">';
+                                                echo '<input type="submit" value="Go" name="tablechooser">
+                                                </form>';
+                                                if (isset($_SESSION['previewtable']) && isset($_SESSION['columns_tablepreviewer']) && isset($_SESSION['rows_tablepreviewer'])) {
+                                                    echo 'Chosen table: ' . htmlspecialchars($_SESSION["previewtable"]);
+                                                    echo '<br><br><table>
+                                                            <tr>';
+                                                    foreach ($_SESSION['columns_tablepreviewer'] as $column_name) {
+                                                        echo "<th>" . htmlspecialchars($column_name) . "</th>";
                                                     }
                                                     echo '</tr>';
+                                                    foreach ($_SESSION['rows_tablepreviewer'] as $row) {
+                                                        echo '<tr>';
+                                                        foreach ($row as $value) {
+                                                            echo '<td>' . htmlspecialchars($value) . '</td>';
+                                                        }
+                                                        echo '</tr>';
+                                                    }
+                                                    echo '</table>';
+                                                } else {
+                                                    echo "No data available to display.";
                                                 }
-                                                echo '</table>';
-                                            } else {
-                                                echo "No data available to display.";
-                                            }
+                                                echo '<br><br></div>';
+                                        }
+                                        if ($user["Modify"] == "0" && $user["Select"] == "0") {
+                                            header("Location: database.php?page=waltuh");
+                                        }   
                                     }
                                 }
+                                echo '</div>';
                                 break;
                             case "waltuh":
                                 $queryString = $_SERVER['QUERY_STRING'];
 
-                                echo '<div class="tenor-gif-embed" data-postid="25293991" data-share-method="host" data-aspect-ratio="1.33333" data-width="20%"><a href="https://tenor.com/view/walter-white-walter-white-falling-gif-25293991">Walter White Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>';
+                                echo '<div id="waltuh">
+                                    <div class="tenor-gif-embed" data-postid="18043850" data-share-method="host" data-aspect-ratio="1.3617" data-width="100%"><a href="https://tenor.com/view/walter-white-falling-fast-gif-18043850">Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                                </div>';
                                 break;  
                         }
                     }
@@ -289,32 +321,41 @@
                             $_SESSION["textcolor"] = $_POST["textcolor"];
                             header("Location: database.php?page=Settings");
                         } elseif ($_POST["id"] == "2") {
-
                             $_SESSION["chosentable"] = $_POST["actioner"];
-                            $host = "localhost";
-                            $dbUsername = "root";
-                            $dbPassword = "";
-                            $dbName = "kino";
-
-                            $conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
 
                             if ($conn->connect_error) {
                                 die("Connection failed: ".$conn->connect_error);
                             }
 
-                            $columns_query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = 'kino'";
+                            $not_null_columns = [];
+                            $result = $conn->query("SELECT COLUMN_NAME, IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'kino' AND TABLE_NAME = '".$conn->real_escape_string($_SESSION['chosentable'])."'");
+                            if ($result) {
+                                while ($row = $result->fetch_assoc()) {
+                                    if ($row['IS_NULLABLE'] === 'NO') {
+                                        $not_null_columns[] = $row['COLUMN_NAME'];
+                                    }
+                                }
+                            }
+
+                            $columns_query = "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = 'kino'";
                             $columns_result = $conn->query($columns_query);
 
                             $key_query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '". $conn->real_escape_string($_SESSION['chosentable']) . "' AND TABLE_SCHEMA = 'kino' AND CONSTRAINT_NAME = 'PRIMARY'";
                             $key_result = $conn->query($key_query);
 
                             $columns_array = [];
+                            $column_type = [];
                             if ($columns_result) {
                                 while ($column = $columns_result->fetch_assoc()) {
                                     $columns_array[] = $column['COLUMN_NAME'];
+                                    $column_type[] = $column['DATA_TYPE'];
                                 }
                             }
-
+                            if ($columns_result) {
+                                while ($type = $columns_result->fetch_assoc()) {
+                                    $column_type[] = $type['DATA_TYPE'];
+                                }
+                            }
                             $keys = [];
                             if ($key_result) {
                                 while ($key = $key_result->fetch_assoc()) {
@@ -323,10 +364,123 @@
                             }
                             $_SESSION['keys'] = $keys;
                             $_SESSION['columns_array'] = $columns_array;
+                            $_SESSION['not_null_columns'] = $not_null_columns;
+                            $_SESSION['column_type'] = $column_type;
                             header("Location: database.php?page=Database");
                         } elseif ($_POST["id"] == "3") {
+                            if (isset($_SESSION['columns_array'])) {
+                                $columns_array = $_SESSION['columns_array'];
+                                $column_types = $_SESSION['column_types'];
+                                
+                                $columns = [];
+                                $values = [];
+                            
+                                foreach ($columns_array as $column_name) {
+                                    if (isset($_POST[$column_name])) {
+                                        $value = $_POST[$column_name];
+                            
+                                        if (isset($column_types[$column_name]) && $column_types[$column_name] === 'tinyint(1)') {
+                                            $value = $value === 'on' ? 1 : 0;
+                                        } else {
+                                            $value = !empty($value) ? $value : NULL;
+                                        }
+                            
+                                        
+                                        $columns[] = "`" . $column_name . "`";  // Enclose column names in backticks to avoid SQL conflicts
+                                        $values[] = "'" . $conn->real_escape_string($value) . "'";
+                                    }
+                                }
+                            
+                                if (!empty($columns) && !empty($values)) {
+                                    $columns_str = implode(", ", $columns);
+                                    $values_str = implode(", ", $values);
+                            
+                                    $sql = "INSERT INTO `" . $_SESSION["chosentable"] . "` ($columns_str) VALUES ($values_str)";
+                                    
+                            
+                                    if ($conn->query($sql) === TRUE) {
+                                        echo "New record created successfully!";
+                                    } else {
+                                        echo "Error: " . $sql . "<br>" . $conn->error;
+                                    }
+                                }
+                            }
+                            
+                            if ($_SESSION["previewtable"]) {
+                                $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = 'kino'";
+                                $columns_result_tablepreviewer = $conn->query($columns_query_tablepreviewer);
+
+                                $columns_tablepreviewer = [];
+                                if ($columns_result_tablepreviewer) {
+                                    while ($column = $columns_result_tablepreviewer->fetch_assoc()) {
+                                        $columns_tablepreviewer[] = $column['COLUMN_NAME'];
+                                    }
+                                }
+                                $_SESSION['columns_tablepreviewer'] = $columns_tablepreviewer;
+
+                                $rows_query_tablepreviewer = "SELECT * FROM " . $conn->real_escape_string($_SESSION['previewtable']);
+                                $rows_result_tablepreviewer = $conn->query($rows_query_tablepreviewer);
+
+                                $rows_tablepreviewer = [];
+                                if ($rows_result_tablepreviewer) {
+                                    while ($row = $rows_result_tablepreviewer->fetch_assoc()) {
+                                        $rows_tablepreviewer[] = $row;
+                                    }
+                                }
+                                $_SESSION['rows_tablepreviewer'] = $rows_tablepreviewer;
+                            }
+
                             header("Location: database.php?page=Database");
                         } elseif ($_POST["id"] == "4") {
+                            $table_name = $_SESSION['chosentable'];
+                            $keys = $_SESSION['keys'];
+
+                            $conditions = [];
+                            foreach ($keys as $key_name) {
+                                if (isset($_POST[$key_name])) {
+                                    $key_value = $conn->real_escape_string($_POST[$key_name]);
+                                    $conditions[] = "`$key_name` = '$key_value'";
+                                }
+
+                                if (!empty($conditions)) {
+                                    $where_clause = implode(" AND ", $conditions);
+                        
+                                    $sql = "DELETE FROM `$table_name` WHERE $where_clause";
+                        
+                                    if ($conn->query($sql) === TRUE) {
+                                        echo "Row removed successfully!";
+                                    } else {
+                                        echo "Error: " . $sql . "<br>" . $conn->error;
+                                    }
+                                } else {
+                                    echo "No key values provided!";
+                                }
+                            }
+
+                            if ($_SESSION["previewtable"]) {
+                                $columns_query_tablepreviewer = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $conn->real_escape_string($_SESSION['previewtable']) . "' AND TABLE_SCHEMA = 'kino'";
+                                $columns_result_tablepreviewer = $conn->query($columns_query_tablepreviewer);
+
+                                $columns_tablepreviewer = [];
+                                if ($columns_result_tablepreviewer) {
+                                    while ($column = $columns_result_tablepreviewer->fetch_assoc()) {
+                                        $columns_tablepreviewer[] = $column['COLUMN_NAME'];
+                                    }
+                                }
+                                $_SESSION['columns_tablepreviewer'] = $columns_tablepreviewer;
+
+                                $rows_query_tablepreviewer = "SELECT * FROM " . $conn->real_escape_string($_SESSION['previewtable']);
+                                $rows_result_tablepreviewer = $conn->query($rows_query_tablepreviewer);
+
+                                $rows_tablepreviewer = [];
+                                if ($rows_result_tablepreviewer) {
+                                    while ($row = $rows_result_tablepreviewer->fetch_assoc()) {
+                                        $rows_tablepreviewer[] = $row;
+                                    }
+                                }
+                                $_SESSION['rows_tablepreviewer'] = $rows_tablepreviewer;
+                            }
+
                             header("Location: database.php?page=Database");
                         } elseif ($_POST["id"] == "5") {
                             $_SESSION['previewtable'] = $_POST["table_previewer"];
