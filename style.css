@@ -183,3 +183,7 @@ footer {
         transform: translateX(-100%);
     }
 }
+
+#welcomer {
+    position: fixed;
+}

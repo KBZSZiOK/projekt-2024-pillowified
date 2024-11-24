@@ -121,6 +121,10 @@
                                 <div id='scroller'>
                                     <span>please work</span>
                                 </div>";
+                                if ($_SESSION['greeted'] == false) {
+                                    echo "<div id='welcomer'>Welcome, " . $_SESSION['username'] . "!</div>";
+                                    $_SESSION['greeted'] = true;
+                                }
                                 echo "<div id='main-home'>
                                 <div>
                                     <h1>Welcome to our Cinema!</h1>
@@ -129,10 +133,6 @@
                                     <br>(surely will add a special page for visitors)</p>
 
                                 </div>";
-                                if ($_SESSION['greeted'] == false) {
-                                    echo "Welcome, " . $_SESSION['username'] . "!";
-                                    $_SESSION['greeted'] = true;
-                                }
                                 echo "</div>";
                                 break;
                             case "Settings":
@@ -317,6 +317,7 @@
                                 $queryString = $_SERVER['QUERY_STRING'];
 
                                 echo '<div id="waltuh">
+                                    <h1>NO PERMS?</h1>
                                     <div class="tenor-gif-embed" data-postid="18043850" data-share-method="host" data-aspect-ratio="1.3617" data-width="100%"><a href="https://tenor.com/view/walter-white-falling-fast-gif-18043850">Walter White Falling GIF</a>from <a href="https://tenor.com/search/walter+white-gifs">Walter White GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
                                 </div>';
                                 break;  
