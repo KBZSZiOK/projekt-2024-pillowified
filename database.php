@@ -117,7 +117,7 @@
                                 $queryString = $_SERVER['QUERY_STRING'];
 
                                 echo "
-                                <div id='scroller'>
+                                <div id='scroller' class='bordered'>
                                     <span>please work</span>
                                 </div>";
                                 if ($_SESSION['greeted'] == false) {
