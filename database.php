@@ -184,7 +184,7 @@
                                         if ($user["Modify"] == "1") {
                                             echo '
                                                 <div id="left" class="bordered"><br>
-                                                    <div><h2>Table Modifier</h2>
+                                                    <div><h1>Table Modifier</h1>
                                                     <form method="POST">
                                                         <select name="actioner" id="actioner">';
                                                         foreach ($tables as $table_name) {
@@ -268,7 +268,7 @@
                                         }
                                         if ($user["Select"] == "1") {
                                             echo '
-                                                <div id="right" class="bordered">';
+                                                <div id="right" class="bordered"><br>';
                                                 echo '<h1>Table Previewer</h1>
                                                 <form method="post">
                                                 <select name="table_previewer" id="table_previewer">';
@@ -299,7 +299,7 @@
                                                 } else {
                                                     echo "No data available to display.";
                                                 }
-                                                echo '<br><br></div>';
+                                                echo '<br></div>';
                                         }
                                         if ($user["Modify"] == "0" && $user["Select"] == "0") {
                                             header("Location: database.php?page=waltuh");
